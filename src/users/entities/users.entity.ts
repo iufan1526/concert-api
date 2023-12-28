@@ -9,8 +9,10 @@ import {
     USER_NICKNAME_MIN_LENGTH,
     USER_PASSWORD_MAX_LENGTH,
     USER_PASSWORD_MIN_LENGTH,
-} from '../const/user.const';
+} from '../const/user-model.const';
 import { ConcertsModel } from 'src/concerts/entities/concerts.entity';
+import { emptyValidationMessage } from 'src/common/validation-message/empty-validation.message';
+import { lengthValidationMessage } from 'src/common/validation-message/length-validation.message';
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -20,8 +22,12 @@ export class UsersModel extends BaseModel {
     @Column({
         nullable: false,
     })
-    @IsString()
-    @Length(USER_NICKNAME_MIN_LENGTH, USER_NICKNAME_MAX_LENGTH)
+    @IsString({
+        message: emptyValidationMessage,
+    })
+    @Length(USER_NICKNAME_MIN_LENGTH, USER_NICKNAME_MAX_LENGTH, {
+        message: lengthValidationMessage,
+    })
     nickname: string;
 
     /**
@@ -30,8 +36,15 @@ export class UsersModel extends BaseModel {
     @Column({
         nullable: false,
     })
-    @IsEmail()
-    @Length(USER_EMAIL_MIN_LENGTH, USER_EMAIL_MAX_LENGTH)
+    @IsEmail(
+        {},
+        {
+            message: emptyValidationMessage,
+        },
+    )
+    @Length(USER_EMAIL_MIN_LENGTH, USER_EMAIL_MAX_LENGTH, {
+        message: lengthValidationMessage,
+    })
     email: string;
 
     /**
@@ -40,8 +53,12 @@ export class UsersModel extends BaseModel {
     @Column({
         nullable: false,
     })
-    @IsString()
-    @Length(USER_PASSWORD_MIN_LENGTH, USER_PASSWORD_MAX_LENGTH)
+    @IsString({
+        message: emptyValidationMessage,
+    })
+    @Length(USER_PASSWORD_MIN_LENGTH, USER_PASSWORD_MAX_LENGTH, {
+        message: lengthValidationMessage,
+    })
     password: string;
 
     /**

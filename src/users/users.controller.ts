@@ -1,23 +1,16 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UsersModel } from './entities/users.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-    constructor(
-        private readonly usersService: UsersService,
-        @InjectRepository(UsersModel)
-        private readonly usersModel: Repository<UsersModel>,
-    ) {}
+    constructor(private readonly usersService: UsersService) {}
 
+    /**
+     * 사용자 회원가입
+     */
     @Post()
-    testCreateUser() {
-        return this.usersModel.save({
-            nickname: '김승태',
-            email: 'iufan@naver.com',
-            password: 'qwe123123213',
-        });
+    signupUser(@Body() body: CreateUserDto) {
+        return this.usersService.signupUser(body);
     }
 }
