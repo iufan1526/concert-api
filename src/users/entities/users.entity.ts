@@ -1,6 +1,6 @@
-import { IsEmail, IsNumber, IsString, Length, isNumber } from 'class-validator';
+import { IsBoolean, IsEmail, IsNumber, IsString, Length, isNumber } from 'class-validator';
 import { BaseModel } from 'src/common/entities/base.entity';
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import {
     USER_DEFAULT_POINT,
     USER_EMAIL_MAX_LENGTH,
@@ -70,7 +70,20 @@ export class UsersModel extends BaseModel {
     @IsNumber()
     point: number;
 
+    /**
+     * 사용자 어드민 여부
+     */
+    @Column({
+        name: 'is_admin',
+        default: false,
+    })
+    @IsBoolean()
+    isAdmin: boolean;
+
     @ManyToMany(() => ConcertsModel, (concert) => concert.users)
     @JoinTable()
     concerts: ConcertsModel[];
+
+    @OneToMany(() => ConcertsModel, (concert) => concert.owner)
+    ownerConcert: ConcertsModel[];
 }

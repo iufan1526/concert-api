@@ -8,6 +8,9 @@ import { ConcertsModule } from './concerts/concerts.module';
 import { UsersModel } from './users/entities/users.entity';
 import { ConcertsModel } from './concerts/entities/concerts.entity';
 import { SeatModel } from './concerts/entities/seat.entity';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { ConcertDateModel } from './concerts/entities/concert-date.entity';
 
 @Module({
     imports: [
@@ -19,11 +22,15 @@ import { SeatModel } from './concerts/entities/seat.entity';
             username: 'root',
             password: 'qq13227974',
             database: 'concert-api',
-            entities: [UsersModel, ConcertsModel, SeatModel],
+            entities: [UsersModel, ConcertsModel, SeatModel, ConcertDateModel],
             synchronize: true,
         }),
         UsersModule,
         ConcertsModule,
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
