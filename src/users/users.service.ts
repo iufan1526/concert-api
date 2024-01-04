@@ -84,6 +84,7 @@ export class UsersService {
     async findUserForId(userId: number) {
         const findUserInfo = await this.usersRepository.findOne({
             select: {
+                id: true,
                 nickname: true,
                 point: true,
                 isAdmin: true,
@@ -94,5 +95,12 @@ export class UsersService {
         });
 
         return findUserInfo;
+    }
+
+    /**
+     * 예매후 포인트 차감
+     */
+    async updateUserPoint(userId: number, point: number) {
+        await this.usersRepository.update({ id: userId }, { point });
     }
 }

@@ -3,6 +3,7 @@ import { BaseModel } from 'src/common/entities/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { ConcertsModel } from './concerts.entity';
 import { ConcertDateModel } from './concert-date.entity';
+import { UsersModel } from 'src/users/entities/users.entity';
 
 @Entity()
 export class SeatModel extends BaseModel {
@@ -40,4 +41,7 @@ export class SeatModel extends BaseModel {
 
     @ManyToOne(() => ConcertDateModel, (concertDate) => concertDate.seats)
     concertDate: ConcertDateModel;
+
+    @ManyToOne(() => UsersModel, (user) => user.seats)
+    user: UsersModel;
 }

@@ -13,6 +13,8 @@ export class ConcertDateModel extends BaseModel {
     @ManyToOne(() => ConcertsModel, (concert) => concert.concertDate)
     concert: ConcertsModel;
 
-    @OneToMany(() => SeatModel, (seat) => seat.concertDate)
+    @OneToMany(() => SeatModel, (seat) => seat.concertDate, {
+        cascade: true,
+    })
     seats: SeatModel[];
 }

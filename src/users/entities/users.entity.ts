@@ -13,6 +13,7 @@ import {
 import { ConcertsModel } from 'src/concerts/entities/concerts.entity';
 import { emptyValidationMessage } from 'src/common/validation-message/empty-validation.message';
 import { lengthValidationMessage } from 'src/common/validation-message/length-validation.message';
+import { SeatModel } from 'src/concerts/entities/seat.entity';
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -86,4 +87,7 @@ export class UsersModel extends BaseModel {
 
     @OneToMany(() => ConcertsModel, (concert) => concert.owner)
     ownerConcert: ConcertsModel[];
+
+    @OneToMany(() => SeatModel, (seats) => seats.user)
+    seats: SeatModel[];
 }

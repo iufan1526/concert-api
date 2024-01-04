@@ -4,13 +4,14 @@ import {
     Get,
     Param,
     ParseIntPipe,
+    Patch,
     Post,
     Query,
     Req,
     UseGuards,
 } from '@nestjs/common';
 import { ConcertsService } from './concerts.service';
-import { OwnerAccessTokenGuard } from 'src/auth/guard/bearer-token.guard';
+import { AccessTokenGuard, OwnerAccessTokenGuard } from 'src/auth/guard/bearer-token.guard';
 import { CreateConcertDto } from './dto/create-concert.dto';
 
 @Controller('concerts')
@@ -56,5 +57,25 @@ export class ConcertsController {
     @Get('/seats/:id')
     getSeats(@Param('id', ParseIntPipe) id: number) {
         return this.concertsService.getSeats(id);
+    }
+
+    /**
+     * 예매하기
+     * @param parmas
+     * @param reqeust
+     * @returns
+     */
+    @Patch('/:id/:dateId')
+    @UseGuards(AccessTokenGuard)
+    reserveConcert(@Param() parmas: any, @Req() reqeust: Request) {
+        const { id, dateId } = parmas;
+
+        return this.concertsService.reserveConcert(id, dateId, reqeust['userId']);
+    }
+
+    @Get('/reservations/user')
+    @UseGuards(AccessTokenGuard)
+    getReservations(@Req() request: Request) {
+        return this.concertsService.getReservations(request['userId']);
     }
 }
